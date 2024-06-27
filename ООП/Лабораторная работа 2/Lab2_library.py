@@ -26,21 +26,19 @@ class Book:     # TODO написать класс Book
 
         if not isinstance(id_, int):
             raise TypeError(f'Переменная id_ должна быть типа int, а ввели тип {type(id_)}')
-        self.id_ = id_
+        self.id = id_
 
-    # def __str__(self):
-    #     return f"Книга: {self.name}; Количество страниц: '{self.pages}'; ID: '{self.id_}'"
     def __str__(self):
-        return f'Книга "{self.name}"'
+        return f'Книга {self.name!r}'
 
     def __repr__(self):
-        return f"Book(id_={self.id_!r}, name={self.name!r}, pages={self.pages!r})"
+        return f"{self.__class__.__name__}(id_={self.id!r}, name={self.name!r}, pages={self.pages!r})"
 
 
 
 
 class Library:      # TODO написать класс Library
-    def __init__(self, books: Optional[list[Book]] = None):
+    def __init__(self, books: list[Book] = None):
         if books is None:
             self.books = []
         elif not isinstance(books, list):
@@ -52,21 +50,15 @@ class Library:      # TODO написать класс Library
         if not self.books:
             return 1
         else:
-            return self.books[-1].id_ + 1
+            # return self.books[-1].id_ + 1
+            return max(self.books, key=lambda book: book.id).id + 1
 
-    def get_index_by_book_id(self, index: int):
-        for book in self.books:
-            if book.id_ == index:
-                return index
-            else:
-                raise ValueError(f"Книги с запрашиваемым id не существует")
-
-    # def get_index_by_book_id(self, index: int):
-    #     for id_, book in enumerate(self.books):
-    #         if book.id_ == index:
-    #             return index
-    #         else:
-    #             raise ValueError(f"Книги с запрашиваемым id не существует")
+    def get_index_by_book_id(self, id_):
+        if self.books:
+            for i in range(len(self.books)):
+                if id_ == self.books[i].id:
+                    return i
+        raise ValueError(f"Книги с запрашиваемым id не существует")
 
 
 if __name__ == '__main__':
