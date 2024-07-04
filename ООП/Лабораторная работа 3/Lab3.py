@@ -1,12 +1,28 @@
 class Book:
     """ Базовый класс книги. """
     def __init__(self, name: str, author: str):
+        self.name = name
+        self.author = author
+
+    @property
+    def name(self):
+        return self.__name
+
+    @property
+    def author(self):
+        return self.__author
+
+    @name.setter
+    def name(self, name):
         if not isinstance(name, str):
             raise TypeError(f'Переменная name должна быть типа str, а ввели тип {type(name)}')
-        self.name = name
+        self.__name = name
+
+    @author.setter
+    def author(self, author):
         if not isinstance(author, str):
             raise TypeError(f'Переменная author должна быть типа str, а ввели тип {type(author)}')
-        self.author = author
+        self.__author = author
 
     def __str__(self):
         return f"Книга {self.name}. Автор {self.author}"
@@ -18,9 +34,20 @@ class Book:
 class PaperBook(Book):
     def __init__(self, name: str, author: str, pages: int):
         super().__init__(name, author)
+        self.pages = pages
+
+    @property
+    def pages(self):
+        return self.__pages
+
+    @pages.setter
+    def pages(self, pages):
         if not isinstance(pages, int):
             raise TypeError(f'Переменная pages должна быть типа int, а ввели тип {type(pages)}')
-        self.pages = pages
+        if pages > 0:
+            self.__pages = pages
+        else:
+            raise ValueError(f'Количество страниц должно быть положительным и больше нуля')
 
     def __str__(self):
         return super().__str__() + f". Количество страниц: {self.pages} стр."
@@ -33,9 +60,21 @@ class PaperBook(Book):
 class AudioBook(Book):
     def __init__(self, name: str, author: str, duration: float):
         super().__init__(name, author)
+        self.duration = duration
+
+    @property
+    def duration(self):
+        return self.__duration
+
+    @duration.setter
+    def duration(self, duration):
         if not isinstance(duration, int):
             raise TypeError(f'Переменная duration должна быть типа float, а ввели тип {type(duration)}')
-        self.duration = duration
+        if duration > 0:
+            self.__duration = duration
+        else:
+            raise ValueError(f'Длительность должна быть положительной и больше нуля')
+
 
     def __str__(self):
         return super().__str__() + f". Длительность: {self.duration} минут"
