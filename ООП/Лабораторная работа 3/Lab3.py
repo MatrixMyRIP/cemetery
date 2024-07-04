@@ -1,34 +1,20 @@
 class Book:
     """ Базовый класс книги. """
     def __init__(self, name: str, author: str):
-        self.name = name
-        self.author = author
+        self.__name = name
+        self.__author = author
 
-    @property
     def name(self):
         return self.__name
 
-    @property
     def author(self):
         return self.__author
 
-    @name.setter
-    def name(self, name):
-        if not isinstance(name, str):
-            raise TypeError(f'Переменная name должна быть типа str, а ввели тип {type(name)}')
-        self.__name = name
-
-    @author.setter
-    def author(self, author):
-        if not isinstance(author, str):
-            raise TypeError(f'Переменная author должна быть типа str, а ввели тип {type(author)}')
-        self.__author = author
-
     def __str__(self):
-        return f"Книга {self.name}. Автор {self.author}"
+        return f"Книга {self.__name}. Автор {self.__author}"
 
     def __repr__(self):
-        return f"{self.__class__.__name__}(name={self.name!r}, author={self.author!r})"
+        return f"{self.__class__.__name__}(name={self.__name!r}, author={self.__author!r})"
 
 
 class PaperBook(Book):
@@ -75,7 +61,6 @@ class AudioBook(Book):
         else:
             raise ValueError(f'Длительность должна быть положительной и больше нуля')
 
-
     def __str__(self):
         return super().__str__() + f". Длительность: {self.duration} минут"
         # return f"Книга {self.name}. Автор {self.author}"
@@ -94,3 +79,6 @@ if __name__ == "__main__":
     book3 = AudioBook("Сказки", "Пушкин", 60)
     print(book3)
     print(repr(book3))
+    book.name = "Поэмы"
+    book.author = "Лермонтов"
+    print(book)
